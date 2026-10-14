@@ -1,0 +1,415 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>قصير 1 للصف العاشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
+<style>
+/* Layout: a lab bench at night — two team "circuits" flank one question card; each team's bulb brightens with its score. Deliberately single dark theme so the bulbs glow. */
+:root{
+  --bench:#0F2038; --bench-2:#16304F; --line:#2A4669;
+  --chalk:#F2EEE3; --muted:#9FB0C8;
+  --copper:#E08A4B; --bulb:#FFD84D;
+  --cation:#FF6B5B; --anion:#4DA3FF;
+  --ok:#47D18C; --bad:#FF5E6C;
+  --display:"Lalezar","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bench);color:var(--chalk);font-family:var(--body);font-size:clamp(15px,1.25vw,20px);
+  background-image:radial-gradient(circle at 1px 1px,rgba(242,238,227,.06) 1px,transparent 0);background-size:28px 28px}
+button{font-family:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--bulb);outline-offset:3px}
+.wrap{min-height:100%;display:flex;flex-direction:column;padding-block:16px;padding-inline:clamp(16px,2.5vw,40px);gap:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-size:clamp(28px,3vw,46px);line-height:1;letter-spacing:0}
+.logo span{color:var(--bulb)}
+.brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.credit{color:var(--muted);font-size:.95em}
+.credit b{color:var(--copper);font-weight:700}
+.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.ghost{background:transparent;border:2px solid var(--line);border-radius:12px;padding:8px 14px;font-weight:600;font-size:.9em;color:var(--muted)}
+.ghost:hover{color:var(--chalk);border-color:var(--muted)}
+
+/* arena */
+.arena{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.6fr) minmax(0,1fr);gap:clamp(12px,2vw,28px);align-items:stretch}
+.team{border:2px solid var(--line);border-radius:22px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--bench-2);transition:border-color .3s,box-shadow .3s;min-width:0}
+.team.active{border-color:var(--tc);box-shadow:0 0 0 4px color-mix(in srgb,var(--tc) 30%,transparent)}
+.team .ion{width:58px;height:58px;border-radius:50%;background:var(--tc);display:grid;place-items:center;font-family:var(--display);font-size:42px;line-height:1;color:var(--bench)}
+.team .name{font-family:var(--display);font-size:clamp(20px,1.9vw,30px);text-align:center;line-height:1.2;text-wrap:balance}
+.team .score{font-family:var(--display);font-size:clamp(44px,4.6vw,76px);line-height:1;font-variant-numeric:tabular-nums}
+.team .lbl{color:var(--muted);font-size:.85em}
+.bulb{width:100%;max-width:150px}
+.jokers{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.joker{border:2px solid var(--tc);background:transparent;border-radius:999px;padding:6px 12px;font-weight:700;font-size:.85em}
+.joker:disabled{opacity:.25;cursor:not-allowed;text-decoration:line-through}
+.joker.on{background:var(--tc);color:var(--bench)}
+.turnflag{font-weight:700;color:var(--tc);min-height:1.4em}
+
+/* stage */
+.stage{border:2px solid var(--line);border-radius:26px;background:var(--bench-2);padding:clamp(18px,2.4vw,36px);display:flex;flex-direction:column;gap:18px;min-width:0;position:relative;overflow:hidden}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{border-radius:999px;padding:6px 14px;font-weight:700;font-size:.9em;background:var(--line)}
+.chip.pts{background:var(--bulb);color:var(--bench)}
+.chip.team-chip{background:var(--tc);color:var(--bench)}
+.q{font-family:var(--display);font-size:clamp(26px,2.8vw,48px);line-height:1.45;text-wrap:balance;margin:0}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.opts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opt{display:flex;align-items:center;gap:12px;text-align:start;background:var(--bench);border:2px solid var(--line);border-radius:16px;padding:14px 16px;font-size:clamp(17px,1.6vw,26px);font-weight:700;line-height:1.35;transition:transform .15s,border-color .2s,background .2s;min-width:0}
+.opt:hover:not(:disabled){border-color:var(--copper);transform:translateY(-2px)}
+.opt .k{flex:none;width:1.8em;height:1.8em;border-radius:10px;background:var(--line);display:grid;place-items:center;font-size:.8em}
+.opt:disabled{cursor:default}
+.opt.gone{opacity:.15}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,var(--bench))}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 22%,var(--bench))}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.timer{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--muted)}
+.timer svg{width:54px;height:54px}
+.timer .t{font-family:var(--display);font-size:28px;color:var(--chalk);font-variant-numeric:tabular-nums;min-width:2ch}
+.timer.low .t{color:var(--bad)}
+.banner{border-radius:16px;padding:14px 18px;font-weight:700;font-size:1.1em;line-height:1.5}
+.banner.steal{background:color-mix(in srgb,var(--copper) 25%,var(--bench));border:2px dashed var(--copper)}
+.banner.ok{background:color-mix(in srgb,var(--ok) 18%,var(--bench));border:2px solid var(--ok)}
+.banner.bad{background:color-mix(in srgb,var(--bad) 15%,var(--bench));border:2px solid var(--bad)}
+.banner b{font-family:var(--display);font-weight:400;font-size:1.3em;display:block;margin-bottom:2px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto}
+.btn{border:none;border-radius:14px;padding:14px 26px;font-weight:700;font-size:1.1em;background:var(--copper);color:var(--bench)}
+.btn:hover{filter:brightness(1.08)}
+.btn.ok{background:var(--ok)} .btn.bad{background:var(--bad)}
+.btn.alt{background:transparent;border:2px solid var(--line);color:var(--chalk)}
+.answer-box{border:2px solid var(--ok);border-radius:16px;padding:14px 18px;font-size:1.15em;line-height:1.6;background:color-mix(in srgb,var(--ok) 12%,var(--bench))}
+.points-pop{direction:ltr;position:absolute;inset-inline:0;top:40%;text-align:center;font-family:var(--display);font-size:clamp(60px,8vw,130px);color:var(--bulb);pointer-events:none;animation:pop 1.3s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:scale(.5)}25%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:translateY(-60px) scale(1)}}
+.intro{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;flex:1}
+.intro .big{font-family:var(--display);font-size:clamp(40px,5vw,84px);line-height:1.2;color:var(--tc)}
+.progress{display:flex;gap:4px;flex-wrap:wrap}
+.progress i{width:14px;height:8px;border-radius:4px;background:var(--line)}
+.progress i.done{background:var(--copper)}
+
+/* setup */
+.setup{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:22px;width:100%}
+.setup h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,92px);margin:0;line-height:1.1;text-wrap:balance}
+.setup h1 span{color:var(--bulb)}
+.setup p.lead{font-size:1.15em;color:var(--muted);margin:0;max-width:60ch;line-height:1.7}
+.teams-in{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-weight:700;color:var(--muted)}
+.field input{background:var(--bench-2);border:2px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:1.15em;font-weight:700;color:var(--chalk);width:100%}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:2px solid var(--line);background:transparent;border-radius:12px;padding:10px 18px;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--chalk);color:var(--bench);border-color:var(--chalk)}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rule{border:2px solid var(--line);border-radius:16px;padding:14px;line-height:1.6;min-width:0}
+.rule b{font-family:var(--display);font-weight:400;font-size:1.3em;color:var(--bulb);display:block}
+.end{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:20px 0}
+.end h2{font-family:var(--display);font-weight:400;font-size:clamp(44px,6vw,100px);margin:0;line-height:1.1;color:var(--tc)}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+@media (max-width:820px){
+  .arena{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage{grid-column:1/-1;order:3}
+  .bulb{max-width:90px}
+  .opts,.opts.three{grid-template-columns:minmax(0,1fr)}
+  .teams-in,.rules{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap" dir="rtl" lang="ar">
+  <header>
+    <div class="brand"><div class="logo">قصير 1 للصف <span>العاشر</span></div></div>
+    <div class="hdr-btns">
+      <button class="ghost" id="soundBtn" type="button">🔊 الصوت: يعمل</button>
+      <button class="ghost" id="fsBtn" type="button">⛶ ملء الشاشة</button>
+      <button class="ghost" id="restartBtn" type="button">↺ لعبة جديدة</button>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+<canvas id="fx"></canvas>
+
+<script>
+/* ---------- question bank (from the lesson exercises) ---------- */
+const BANK=[
+ {"t":"mcq","p":200,"q":"عند زيادة قيمة (<span class=\"ltr\">n)<\/span>:","o":["يقل حجم المستوى وتقل طاقته","يزداد حجم المستوى وتقل طاقته","يزداد حجم المستوى وتزداد طاقته","لا يتغير حجم المستوى ولا طاقته"],"a":2,"e":""},
+ {"t":"tf","p":100,"q":"عند تسليط جسيمات ألفا على رقاقة من الذهب فإن معظمها يرتد في اتجاه مصدرها","a":1,"e":""},
+ {"t":"open","p":300,"q":"علل:\nيوصف علم الكيمياء بـ « العلم المركزي».","e":"لأن له دور محوري في الربط بين فروع العلوم الطبيعية مثل الفيزياء والأحياء والجيولوجيا"},
+ {"t":"open","p":100,"q":"نفاذ معظم جسيمات الفا خلال رقاقة الذهب دون أي انحراف عن مسارها في تجربة رذرفورد.","e":"لأن معظم الذرة فراغ"},
+ {"t":"open","p":100,"q":"2- انحراف عدد قليل من جسيمات ألفا عن مسارها بعد اصطدامها برقاقة الذهب في تجربة رذرفور","e":"جسيمات ألفا موجبة الشحنة تنافرت مع النواة التي لها شحنة موجبة"},
+ {"t":"open","p":100,"q":"ارتداد عدد قليل جداً من جسيمات ألفا تجاه مصدرها بعد اصطدامها برقاقة الذهب في تجربة رذرفورد","e":"يوجد بالذرة جزء يشغل حيزاً صغيراً جداً بالنسبة لحجم الذرة ( النواة ) ويتركز فيه معظم كتلة الذرة"},
+ {"t":"open","p":100,"q":"الذرة متعادلة كهربائياً","e":"لأن عدد الشحنات السالبة (الإلكترونات) يساوي عدد الشحنات الموجبة (البروتونات) داخل النواة."},
+ {"t":"tf","p":100,"q":"تركز كتلة الذرة في النواة طبقاً لنموذج رذرفورد للذرة.","a":0,"e":""},
+ {"t":"tf","p":100,"q":"اثبتت تجربه ردرفورد ان معظم حجم الذرة فراع","a":0,"e":""},
+ {"t":"tf","p":100,"q":"ينص أحد فروض بور على أن عدد الشحنات السالبة لا يساوي عدد الشحنات الموجبة في الذرة","a":1,"e":""},
+ {"t":"tf","p":100,"q":"الذرة المستقرة تكون طاقة إلكتروناتها أكبر ما يمكن","a":1,"e":""},
+ {"t":"mcq","p":100,"q":"أحد رموز تحت مستويات الطاقة التالية غير صحيح:","o":["3<span class=\"ltr\">d<\/span>","3<span class=\"ltr\">s<\/span>","3<span class=\"ltr\">f<\/span>","3<span class=\"ltr\">p<\/span>"],"a":2,"e":""},
+ {"t":"mcq","p":100,"q":"أحد ما يلي يمثل تحت مستوى الطاقة الذي له قيمة (<span class=\"ltr\">n<\/span>=3) ، وقيمة (ℓ=1):","o":["1<span class=\"ltr\">s<\/span>","3<span class=\"ltr\">p<\/span>","3<span class=\"ltr\">d<\/span>","3<span class=\"ltr\">f<\/span>"],"a":1,"e":""},
+ {"t":"mcq","p":100,"q":"عدد أفلاك تحت مستوى الطاقة (<span class=\"ltr\">d)<\/span>","o":["1","3","5","7"],"a":2,"e":""},
+ {"t":"mcq","p":100,"q":"أفلاك تحت مستوى الطاقة (<span class=\"ltr\">p)<\/span> متماثلة في جميع ما يلي، عدا:","o":["الطاقة","الاتجاه في الفراغ","السعة من الإلكترونات","الشكل"],"a":1,"e":""},
+ {"t":"mcq","p":100,"q":"في ذرة ما الإلكترونات الأكثر ارتباطاً بالنواة هي إلكترونات مستوى الطاقة الرئيسي الذي يرمز له بالرمز :","o":["<span class=\"ltr\">K<\/span>","<span class=\"ltr\">L<\/span>","<span class=\"ltr\">M<\/span>","<span class=\"ltr\">N<\/span>"],"a":0,"e":""},
+ {"t":"open","p":100,"q":"- تحت مستوى الطاقة (<span class=\"ltr\">p)<\/span> يحتوي على ثلاثة أفلاك.","e":"لأن تحت مستوى الطاقة (<span class=\"ltr\">p)<\/span> له ثلاثة قيم عدد كم مغناطيسي (+0,1,-1)"},
+ {"t":"open","p":100,"q":"يتسع تحت مستوى الطاقة (<span class=\"ltr\">d)<\/span> لعشرة إلكترونات كحد أقصى","e":"لان تحت مستوى الطاقة (<span class=\"ltr\">d)<\/span> يتكون من خمسة أفلاك وكل فلك يتسع لإلكترونين"},
+ {"t":"open","p":100,"q":"وجود إلكترونين في الفلك الذري نفسه على الرغم من تشابه شحنتيهما.","e":"الحركة المغزلية لأحد الإلكترونين عكس الأخر فينشأ مجالان مغناطيسيان متعاكسان في الاتجاه مما يقلل التنافر بينهما فيتجاذبان"},
+ {"t":"mcq","p":100,"q":"تحت مستوى الطاقة الذي يملأ أولاً بالإلكترونات:","o":["2<span class=\"ltr\">p<\/span>","4<span class=\"ltr\">s<\/span>","3<span class=\"ltr\">p<\/span>","3<span class=\"ltr\">d<\/span>"],"a":0,"e":""},
+ {"t":"mcq","p":100,"q":"- يختلف الإلكترونان الموجودان في تحت المستوى (<span class=\"ltr\">np<\/span>²) في قيمة عدد الكم :","o":["الرئيسي","الزاوي","المغناطيسي","المغزلي"],"a":2,"e":""},
+ {"t":"mcq","p":100,"q":"عدد أزواج الإلكترونات في ذرة الفلور (₉<span class=\"ltr\">F)<\/span>:","o":["2","4","6","8"],"a":1,"e":""},
+ {"t":"mcq","p":100,"q":"يتفق الإلكترونان الموجودان في تحت مستوى الطاقة (3<span class=\"ltr\">s)<\/span> في قيم أعداد الكم:","o":["<span class=\"ltr\">n<\/span>, ℓ فقط","<span class=\"ltr\">n<\/span>, ℓ, <span class=\"ltr\">me<\/span>, <span class=\"ltr\">ms<\/span>",",<span class=\"ltr\">m<\/span>ℓ, ℓ فقط","<span class=\"ltr\">n<\/span>, ℓ, <span class=\"ltr\">m<\/span>ℓ فقط"],"a":3,"e":""},
+ {"t":"mcq","p":100,"q":"أقصى عدد من الإلكترونات التي لها الغزل نفسه في مستوى الطاقة الرئيسي الثاني(<span class=\"ltr\">n<\/span> = 2)","o":["3","4","5","6"],"a":1,"e":""},
+ {"t":"tf","p":100,"q":"مستوى الطاقة الرئيسي الأول (<span class=\"ltr\">n<\/span> = 1) يملأ أولا بالإلكترونات لأنه أكثرها طاقة","a":1,"e":""},
+ {"t":"tf","p":100,"q":"يملا تحت مستوى الطاقة (4<span class=\"ltr\">p)<\/span> بالإلكترونات قبل تحت مستوى الطاقة (3<span class=\"ltr\">d)<\/span>.","a":0,"e":""},
+ {"t":"tf","p":100,"q":"( 128) في\nيختلف الإلكترونان الموجودان في آخر تحت مستوى طاقة لعنصر المغنيسيوم (₁₂<span class=\"ltr\">Mg)<\/span> في قيمة عدد الكم المغزلي","a":0,"e":""},
+ {"t":"tf","p":100,"q":"عندما ينتهى الترتيب الإلكتروني لعنصر بـ (<span class=\"ltr\">np<\/span>⁴) فإنه يكون لديه أربعة إلكترونات مفردة","a":1,"e":""},
+ {"t":"tf","p":100,"q":"يمكن أن يوجد إلكترونان في ذرة واحدة لهما نفس قيم أعداد الكم الأربعة.","a":1,"e":""},
+ {"t":"open","p":100,"q":"ميل الإلكترونات لشغل مستويات الطاقة القريبة من النواة أولاً","e":"لأن مستويات الطاقة القريبة من النواة أقل طاقة وذلك يؤدي الي استقرار الذرة"},
+ {"t":"open","p":100,"q":"يملأ تحت مستوى الطاقة (2<span class=\"ltr\">p)<\/span> بالإلكترونات قبل تحت مستوى الطاقة (3<span class=\"ltr\">p)<\/span>","e":"لأن مجموع قيمة (<span class=\"ltr\">n<\/span>+ℓ) لتحت مستوى الطاقة 2 يساوي (2+1=3) وهو أقل من مجموعها لتحت مستوى الطاقة 3<span class=\"ltr\">p<\/span> الذي يساوي (3+1=4) وفق قاعدة مادلنج"},
+ {"t":"open","p":100,"q":"عندما ينتهي الترتيب الإلكتروني لعنصر بـ (<span class=\"ltr\">np)<\/span> فإنه يكون لديه إلكترونان مفردان","e":"حسب قاعدة هوند تملأ أفلاك تحت المستوى <span class=\"ltr\">p<\/span> فرادى اولا باتجاه الغزل نفسه ثم تبدأ بالازدواج باتجاه غزل معاكس وبذلك يوجد به إلكترونيين مفردين"},
+ {"t":"tf","p":100,"q":"يأخذ عدد الكم الرئيسي قيمًا صحيحة تبدأ من الصفر","a":1,"e":""},
+ {"t":"tf","p":100,"q":"قيمة عدد الكم الزاوي (<span class=\"ltr\">f)<\/span> لتحت مستوى الطاقة (<span class=\"ltr\">p)<\/span> تساوي 2","a":1,"e":""},
+ {"t":"tf","p":100,"q":"يرمز لتحت مستوى الطاقة الذي يملأ بـ ( 14 ) إلكترون بالرمز (<span class=\"ltr\">f)<\/span>","a":0,"e":""},
+ {"t":"tf","p":100,"q":"مستوى الطاقة الرئيسي الثاني يحتوي على اربعة افلاك","a":0,"e":""},
+ {"t":"tf","p":100,"q":"مستوي الطاقة الرئيسي الرابع يتسع لـ 16 إلكترون كحد أقصى","a":1,"e":""}
+];
+const CLS=[];
+const TYPE={mcq:'اختيار من متعدد',cls:'صنّف المحلول',tf:'صح أم خطأ',open:'علّل / ماذا يحدث'};
+
+/* ---------- state ---------- */
+const DEF={screen:'setup',names:["العالم الجليل","الطالب المسكين"],rounds:8,secs:30,
+  scores:[0,0],turn:0,qi:0,deck:[],jokers:[{half:true,dbl:true},{half:true,dbl:true}],phase:'intro',
+  removed:[],picked:null,stealPick:null,dbl:false,last:null};
+let S=structuredClone(DEF);
+let sound=true,timerId=null,left=0;
+
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const total=()=>S.rounds*2;
+const cur=()=>S.deck[S.qi];
+const tc=i=>i===0?'var(--cation)':'var(--anion)';
+
+/* ---------- sound ---------- */
+let AC=null;
+function beep(seq){ if(!sound)return; try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  let t=AC.currentTime; seq.forEach(([f,d,type='sine',v=.18])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;
+    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d);t+=d*.85;});}catch(e){} }
+const sfx={ok:()=>beep([[523,.12],[659,.12],[784,.12],[1046,.3]]),bad:()=>beep([[180,.35,'sawtooth',.12]]),tick:()=>beep([[880,.06,'square',.06]]),
+  start:()=>beep([[392,.1],[523,.18]]),win:()=>beep([[523,.15],[659,.15],[784,.15],[1046,.15],[784,.12],[1046,.5]])};
+
+/* ---------- bulb svg ---------- */
+function bulbSVG(i,level){
+  const g=Math.max(0,Math.min(1,level));
+  return `<svg class="bulb" viewBox="0 0 120 150" aria-hidden="true">
+   <defs><radialGradient id="g${i}"><stop offset="0" stop-color="#FFD84D" stop-opacity="${.9*g}"/><stop offset="1" stop-color="#FFD84D" stop-opacity="0"/></radialGradient></defs>
+   <circle cx="60" cy="55" r="${40+g*20}" fill="url(#g${i})"/>
+   <circle cx="60" cy="55" r="34" fill="${g>0.02?'#FFE680':'#2A4669'}" fill-opacity="${g>0.02?0.25+g*.75:1}" stroke="#F2EEE3" stroke-width="3"/>
+   <path d="M48 85 L50 58 Q60 44 70 58 L72 85" fill="none" stroke="${g>0.02?'#B07A2A':'#9FB0C8'}" stroke-width="3"/>
+   <rect x="44" y="88" width="32" height="10" rx="3" fill="#9FB0C8"/><rect x="46" y="100" width="28" height="10" rx="3" fill="#9FB0C8"/>
+   <rect x="50" y="112" width="20" height="8" rx="3" fill="#E08A4B"/>
+   <text x="60" y="142" text-anchor="middle" font-size="14" fill="#9FB0C8" font-family="IBM Plex Sans Arabic,Tahoma">${Math.round(g*100)}٪ إضاءة</text></svg>`;
+}
+
+/* ---------- render ---------- */
+function teamPanel(i){
+  const lvl=S.scores[i]/(S.rounds*220);
+  const active=S.screen==='play'&&((S.phase==='steal')?S.turn!==i:S.turn===i);
+  const j=S.jokers[i];const q=cur();const canUse=S.screen==='play'&&S.turn===i&&(S.phase==='intro'||S.phase==='ask');
+  const halfOk=q&&q.t!=='tf'&&q.t!=='open'&&S.removed.length===0;
+  return `<section class="team ${active?'active':''}" style="--tc:${tc(i)}" aria-label="${S.names[i]}">
+    <div class="ion">${i===0?'+':'−'}</div>
+    <div class="name">${esc(S.names[i])}</div>
+    ${bulbSVG(i,lvl)}
+    <div class="score" id="sc${i}">${S.scores[i]}</div><div class="lbl">نقطة</div>
+    <div class="jokers">
+      <button class="joker" type="button" data-j="half" data-t="${i}" ${(!j.half||!canUse||!halfOk)?'disabled':''} title="حذف إجابتين خاطئتين">✂️ حذف إجابتين</button>
+      <button class="joker ${S.turn===i&&S.dbl?'on':''}" type="button" data-j="dbl" data-t="${i}" ${(!j.dbl||!canUse||S.dbl)?'disabled':''} title="مضاعفة نقاط هذا السؤال">⚡ ×٢</button>
+    </div>
+    <div class="turnflag">${active?(S.phase==='steal'?'فرصة السرقة!':'دورك الآن'):''}</div>
+  </section>`;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function render(){
+  clearInterval(timerId);
+  if(S.screen==='setup')return renderSetup();
+  if(S.screen==='end')return renderEnd();
+  app.innerHTML=`<div class="arena">${teamPanel(0)}<section class="stage" id="stage" aria-live="polite"></section>${teamPanel(1)}</div>`;
+  app.querySelectorAll('.joker').forEach(b=>b.onclick=()=>useJoker(+b.dataset.t,b.dataset.j));
+  renderStage();
+}
+
+function progressBar(){return `<div class="progress" aria-label="السؤال ${S.qi+1} من ${total()}">${Array.from({length:total()},(_,k)=>`<i class="${k<S.qi?'done':''}"></i>`).join('')}</div>`}
+
+function renderStage(){
+  const st=$('#stage');const q=cur();const T=S.turn,O=1-T;
+  st.style.setProperty('--tc',tc(S.phase==='steal'?O:T));
+  if(S.phase==='intro'){
+    st.innerHTML=`${progressBar()}<div class="intro" style="--tc:${tc(T)}">
+      <div class="chip">السؤال ${S.qi+1} من ${total()}</div>
+      <div class="big">دور ${esc(S.names[T])}</div>
+      <div class="meta" style="justify-content:center"><span class="chip">${TYPE[q.t]}</span><span class="chip pts">${q.p*(S.dbl?2:1)} نقطة</span></div>
+      <p style="color:var(--muted);margin:0">يمكنك استخدام الجوكر الآن قبل عرض السؤال</p>
+      <button class="btn" type="button" id="showQ">اعرض السؤال ←</button></div>`;
+    $('#showQ').onclick=()=>{S.phase='ask';sfx.start();render();};
+    return;
+  }
+  const opts=q.t==='mcq'?q.o:q.t==='cls'?CLS:q.t==='tf'?['صح ✔','خطأ ✘']:null;
+  const answered=S.phase==='reveal';
+  let optsHTML='';
+  if(opts){optsHTML=`<div class="opts ${opts.length===3?'three':''}">${opts.map((o,k)=>{
+      let c='';if(S.removed.includes(k))c='gone';
+      if(S.picked===k||S.stealPick===k)c+=(k===q.a?' right':' wrong');
+      if(answered&&k===q.a)c+=' right';
+      const dis=answered||S.removed.includes(k)||S.picked===k;
+      return `<button class="opt ${c}" type="button" data-k="${k}" ${dis?'disabled':''}><span class="k">${['أ','ب','ج','د'][k]}</span><span>${o}</span></button>`}).join('')}</div>`;}
+  let extra='';
+  if(S.phase==='steal')extra=`<div class="banner steal"><b>فرصة سرقة الشحنة! ⚡</b>${esc(S.names[O])} تجيب الآن، والإجابة الصحيحة تكسب ${Math.round(q.p/2)} نقطة.</div>`;
+  if(answered&&S.last)extra=`<div class="banner ${S.last.ok?'ok':'bad'}"><b>${S.last.msg}</b>${q.e}</div>`;
+  let actions='';
+  if(q.t==='open'&&!answered){
+    actions=S.phase==='ask'
+      ?`<div class="actions"><button class="btn" type="button" id="reveal">اكشف الإجابة النموذجية</button></div>`
+      :'';
+    if(S.showModel)extra=`<div class="answer-box"><b>الإجابة النموذجية:</b> ${q.e}</div>`+extra;
+    if(S.showModel||S.phase==='steal'){
+      actions=`<div class="actions"><button class="btn ok" type="button" id="judgeOk">✔ إجابة صحيحة</button><button class="btn bad" type="button" id="judgeBad">✘ إجابة خاطئة</button></div>`;
+    }
+  }
+  if(answered)actions=`<div class="actions"><button class="btn" type="button" id="next">${S.qi+1>=total()?'النتيجة النهائية 🏆':'السؤال التالي ←'}</button></div>`;
+  const showTimer=!answered&&!(q.t==='open'&&S.showModel);
+  st.innerHTML=`${progressBar()}
+    <div class="meta"><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip team-chip">${esc(S.names[S.phase==='steal'?O:T])}</span><span class="chip">${TYPE[q.t]}</span><span class="chip pts">${S.phase==='steal'?Math.round(q.p/2):q.p*(S.dbl?2:1)} نقطة</span></div>
+    ${showTimer?`<div class="timer" id="timer"><svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="23" fill="none" stroke="var(--line)" stroke-width="6"/><circle id="ring" cx="27" cy="27" r="23" fill="none" stroke="var(--copper)" stroke-width="6" stroke-linecap="round" stroke-dasharray="144.5" transform="rotate(-90 27 27)"/></svg><span class="t" id="tnum"></span></div>`:''}</div>
+    <h2 class="q">${q.q}</h2>${optsHTML}${extra}${actions}`;
+  st.querySelectorAll('.opt').forEach(b=>b.onclick=()=>choose(+b.dataset.k));
+  $('#reveal')&&($('#reveal').onclick=()=>{S.showModel=true;render();});
+  $('#judgeOk')&&($('#judgeOk').onclick=()=>judge(true));
+  $('#judgeBad')&&($('#judgeBad').onclick=()=>judge(false));
+  $('#next')&&($('#next').onclick=next);
+  if(showTimer)startTimer(S.phase==='steal'?Math.max(10,Math.round(S.secs/2)):(q.t==='open'?S.secs+15:S.secs));
+}
+
+function startTimer(sec){
+  left=sec;const full=sec;const upd=()=>{const n=$('#tnum'),r=$('#ring');if(!n)return;n.textContent=left;r.setAttribute('stroke-dashoffset',144.5*(1-left/full));$('#timer').classList.toggle('low',left<=5)};
+  upd();timerId=setInterval(()=>{left--;if(left<=5&&left>0)sfx.tick();upd();if(left<=0){clearInterval(timerId);timeout();}},1000);
+}
+function timeout(){
+  if(S.phase==='ask'){sfx.bad();S.phase='steal';S.picked=S.picked;render();}
+  else if(S.phase==='steal'){finish(false,null,'انتهى الوقت ⏰');}
+}
+function award(team,pts){
+  S.scores[team]+=pts;
+  const pop=document.createElement('div');pop.className='points-pop';pop.textContent='+'+pts;pop.style.color=team===0?'var(--cation)':'var(--anion)';
+  setTimeout(()=>{const st=$('#stage');st&&st.appendChild(pop)},30);
+}
+function choose(k){
+  const q=cur();
+  if(S.phase==='ask'){
+    S.picked=k;
+    if(k===q.a){sfx.ok();const pts=q.p*(S.dbl?2:1);finish(true,S.turn,`أحسنت! +${pts} لـ ${S.names[S.turn]}`,pts);}
+    else{sfx.bad();S.phase='steal';render();}
+  }else if(S.phase==='steal'){
+    S.stealPick=k;const O=1-S.turn;
+    if(k===q.a){sfx.ok();finish(true,O,`سرقة ناجحة! +${Math.round(q.p/2)} لـ ${S.names[O]}`,Math.round(q.p/2));}
+    else{sfx.bad();finish(false,null,'لم يُجب أي فريق إجابة صحيحة');}
+  }
+}
+function judge(ok){
+  const q=cur();
+  if(S.phase==='ask'){ if(ok){sfx.ok();const pts=q.p*(S.dbl?2:1);finish(true,S.turn,`أحسنت! +${pts} لـ ${S.names[S.turn]}`,pts);} else{sfx.bad();S.phase='steal';S.showModel=false;render();} }
+  else if(S.phase==='steal'){ const O=1-S.turn; if(ok){sfx.ok();finish(true,O,`سرقة ناجحة! +${Math.round(q.p/2)} لـ ${S.names[O]}`,Math.round(q.p/2));} else{sfx.bad();finish(false,null,'لم يُجب أي فريق إجابة صحيحة');} }
+}
+function finish(ok,team,msg,pts){
+  clearInterval(timerId);S.phase='reveal';S.last={ok,msg};S.showModel=false;render();
+  if(ok&&team!==null){award(team,pts);setTimeout(()=>{const el=$('#sc'+team);el&&(el.textContent=S.scores[team]);},40);sparks(team);}
+}
+function next(){
+  S.qi++;S.turn=1-S.turn;S.phase='intro';S.removed=[];S.picked=null;S.stealPick=null;S.dbl=false;S.last=null;S.showModel=false;
+  if(S.qi>=total()){S.screen='end';sfx.win();}
+  render();
+}
+function useJoker(i,j){
+  if(i!==S.turn)return;const q=cur();
+  if(j==='dbl'){S.jokers[i].dbl=false;S.dbl=true;sfx.start();render();return;}
+  if(j==='half'){
+    const n=q.t==='mcq'?4:3;const wrong=shuffle([...Array(n).keys()].filter(k=>k!==q.a));
+    S.removed=wrong.slice(0,n===4?2:1);S.jokers[i].half=false;sfx.start();
+    if(S.phase==='intro')S.phase='ask';
+    render();
+  }
+}
+
+/* ---------- setup & end ---------- */
+function renderSetup(){
+  app.innerHTML=`<div class="setup">
+    <h1>من سيُضيء <span>مصباحه</span> أولاً؟</h1>
+    
+    <p class="lead">فريقان يتناوبان على الأسئلة: سؤال للفريق الأول ثم سؤال للفريق الثاني. كل إجابة صحيحة تزيد شحنة الفريق، فيزداد ضوء مصباحه. الفريق صاحب المصباح الأقوى في النهاية هو الفائز.</p>
+    <div class="teams-in">
+      <div class="field"><label for="n0">اسم الفريق الأول (+)</label><input id="n0" value="${esc(S.names[0])}" maxlength="28"></div>
+      <div class="field"><label for="n1">اسم الفريق الثاني (−)</label><input id="n1" value="${esc(S.names[1])}" maxlength="28"></div>
+    </div>
+    <div class="field"><label>عدد الأسئلة لكل فريق</label><div class="seg" id="segR">${[5,8,10,14].map(n=>`<button type="button" data-v="${n}" aria-pressed="${S.rounds===n}">${n}</button>`).join('')}</div></div>
+    <div class="field"><label>وقت السؤال</label><div class="seg" id="segT">${[20,30,45,60].map(n=>`<button type="button" data-v="${n}" aria-pressed="${S.secs===n}">${n} ثانية</button>`).join('')}</div></div>
+    <div class="rules">
+      <div class="rule"><b>سرقة الشحنة ⚡</b>إذا أخطأ الفريق أو انتهى وقته، يحق للفريق الآخر الإجابة على نصف النقاط.</div>
+      <div class="rule"><b>جوكر الحذف ✂️</b>يحذف إجابتين خاطئتين. يُستخدم مرة واحدة لكل فريق.</div>
+      <div class="rule"><b>جوكر ×٢</b>يضاعف نقاط سؤال واحد. يُستخدم قبل الإجابة ومرة واحدة فقط.</div>
+    </div>
+    <div class="actions"><button class="btn" type="button" id="go" style="font-size:1.3em;padding:16px 40px">ابدأ المعركة ←</button></div>
+  </div>`;
+  ['R','T'].forEach(x=>app.querySelectorAll('#seg'+x+' button').forEach(b=>b.onclick=()=>{if(x==='R')S.rounds=+b.dataset.v;else S.secs=+b.dataset.v;saveNames();renderSetup();}));
+  $('#go').onclick=()=>{saveNames();startGame();};
+}
+function saveNames(){const a=$('#n0'),b=$('#n1');if(a)S.names[0]=a.value.trim()||DEF.names[0];if(b)S.names[1]=b.value.trim()||DEF.names[1];}
+function startGame(){
+  // balanced deal: each team gets a similar mix of question types
+  const need=S.rounds*2;let pool=shuffle(BANK);
+  while(pool.length<need)pool=pool.concat(shuffle(BANK));
+  S.deck=pool.slice(0,need).map(q=>{if(q.t!=='mcq')return q;const perm=shuffle([0,1,2,3]);return Object.assign({},q,{o:perm.map(i=>q.o[i]),a:perm.indexOf(q.a)})});S.scores=[0,0];S.turn=0;S.qi=0;S.jokers=[{half:true,dbl:true},{half:true,dbl:true}];
+  S.phase='intro';S.removed=[];S.picked=null;S.stealPick=null;S.dbl=false;S.screen='play';sfx.start();render();
+}
+function renderEnd(){
+  const [a,b]=S.scores;const w=a===b?-1:(a>b?0:1);
+  app.innerHTML=`<div class="arena">${teamPanel(0)}<section class="stage"><div class="end" style="--tc:${w<0?'var(--bulb)':tc(w)}">
+    <div class="chip">انتهت المعركة</div>
+    <h2>${w<0?'تعادل! المصباحان مضيئان':'فاز '+esc(S.names[w])+' 🏆'}</h2>
+    <p style="font-size:1.3em;margin:0">${esc(S.names[0])}: <b>${a}</b> &nbsp;·&nbsp; ${esc(S.names[1])}: <b>${b}</b></p>
+    <p style="color:var(--muted);margin:0;max-width:50ch;line-height:1.7">تذكّروا: الذرة تتكون من نواة موجبة والكترونات سالبة.</p>
+    
+    <div class="actions" style="justify-content:center"><button class="btn" type="button" id="again">جولة جديدة</button><button class="btn alt" type="button" id="toSetup">تغيير الإعدادات</button></div>
+  </div></section>${teamPanel(1)}</div>`;
+  $('#again').onclick=startGame;$('#toSetup').onclick=()=>{S.screen='setup';render();};
+  confetti();
+}
+
+/* ---------- effects ---------- */
+const cv=$('#fx'),cx=cv.getContext('2d');let parts=[],raf=null;
+function sizeCv(){cv.width=innerWidth;cv.height=innerHeight}sizeCv();addEventListener('resize',sizeCv);
+function loop(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.life--;cx.globalAlpha=Math.min(1,p.life/40);cx.fillStyle=p.c;
+    if(p.txt){cx.font='bold 26px IBM Plex Sans Arabic, Tahoma';cx.fillText(p.txt,p.x,p.y)}else{cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}});
+  cx.globalAlpha=1;raf=parts.length?requestAnimationFrame(loop):null;}
+function kick(){if(!raf&&!matchMedia('(prefers-reduced-motion: reduce)').matches)raf=requestAnimationFrame(loop)}
+function sparks(team){const el=$('#sc'+team);if(!el)return;const r=el.getBoundingClientRect();
+  for(let i=0;i<34;i++){const a=Math.random()*6.28,s=2+Math.random()*5;parts.push({x:r.left+r.width/2,y:r.top+r.height/2,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,g:.12,r:3+Math.random()*3,life:60+Math.random()*30,c:Math.random()<.5?'#FFD84D':(team===0?'#FF6B5B':'#4DA3FF'),txt:Math.random()<.25?(team===0?'+':'−'):null})}kick();}
+function confetti(){const cols=['#FFD84D','#FF6B5B','#4DA3FF','#47D18C','#E08A4B'];
+  for(let i=0;i<180;i++)parts.push({x:Math.random()*innerWidth,y:-20-Math.random()*innerHeight*.5,vx:(Math.random()-.5)*2,vy:2+Math.random()*3,g:.03,r:3+Math.random()*4,life:220+Math.random()*120,c:cols[i%5],txt:Math.random()<.2?(Math.random()<.5?'+':'−'):null});kick();}
+
+/* ---------- header & keys ---------- */
+$('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').textContent=sound?'🔊 الصوت: يعمل':'🔇 الصوت: متوقف'};
+$('#fsBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}};
+let armed=false;
+$('#restartBtn').onclick=()=>{ if(S.screen!=='play'){S=structuredClone(Object.assign({},DEF,{names:S.names,rounds:S.rounds,secs:S.secs}));render();return;}
+  if(!armed){armed=true;$('#restartBtn').textContent='اضغط مرة أخرى للتأكيد';setTimeout(()=>{armed=false;$('#restartBtn').textContent='↺ لعبة جديدة'},2500);return;}
+  armed=false;$('#restartBtn').textContent='↺ لعبة جديدة';S.screen='setup';render();};
+addEventListener('keydown',e=>{
+  if(S.screen!=='play'||e.target.tagName==='INPUT')return;
+  const m={'1':0,'2':1,'3':2,'4':3,'أ':0,'ب':1,'ج':2,'د':3}[e.key];
+  if(m!==undefined){const b=document.querySelector(`.opt[data-k="${m}"]:not(:disabled)`);b&&b.click();}
+  if(e.key==='Enter'){const b=$('#next')||$('#showQ');b&&b.click();}
+});
+render();
+</script>
+
+</body></html>
